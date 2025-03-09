@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(0, 0, 0);
+            color: white;
+        }
+        h1 {
+            font-size: 30px;
+            text-align: center;
+        }
+        .parent {
+            border: 10px groove rgb(214, 6, 6);
+            border-radius: 10px;
+            width: 250px;
+            height: auto;
+            margin: auto;
+            padding: 10px;
+        }
+        .clc {
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn {
+            display: grid;
+            grid-template-columns: repeat(4, 55px);
+            grid-gap: 10px;
+            margin: 20px 0;
+        }
+        .btn button, .clc button, .eq {
+            padding: 15px;
+            font-size: 18px;
+            background-color: rgb(83, 80, 80);
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .btn button:hover{
+             background-color: rgb(209, 16, 16);
+             box-shadow: rgb(90, 92, 90) 1px 1px 1px 2px ;
+        }
+        .clc button:hover{
+            background-color: rgb(90, 92, 90);
+            box-shadow: rgb(209, 16, 16) 1px 1px 1px 2px ;
+        }   
+        .clc button {
+            background-color: rgb(209, 16, 16);
+            grid-column: span 2;
+        }
+        input {
+            width: 95%;
+            height: 40px;
+            font-size: 20px;
+            text-align: right;
+            border: none;
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 15px;
+        }
+        .eq {
+            width: 100%;
+            background-color: rgb(212, 92, 12);
+            color: white;
+            margin-top: 10px;
+        }
+        .eq:hover{
+            background-color: rgb(100, 32, 32);
+            box-shadow: rgb(90, 92, 90) 1px 1px 1px 2px ;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculator</h1>
+
+    <div class="parent">
+        <div>
+            <input type="text" id="display" value="" placeholder="0" readonly>
+        </div>
+        <div class="clc">
+            <button onclick="clearAll()">Clear All</button>
+            <button onclick="clearLast()">Clear</button>
+        </div>
+        <div class="btn">
+            <button onclick="n(9)">9</button>
+            <button onclick="n(8)">8</button>
+            <button onclick="n(7)">7</button>
+            <button onclick="op('+')">+</button>
+            <button onclick="n(6)">6</button>
+            <button onclick="n(5)">5</button>
+            <button onclick="n(4)">4</button>
+            <button onclick="op('-')">-</button>
+            <button onclick="n(3)">3</button>
+            <button onclick="n(2)">2</button>
+            <button onclick="n(1)">1</button>
+            <button onclick="op('x')">x</button>
+            <button onclick="n(0)">0</button>
+            <button onclick="dot()">.</button>
+            <button onclick="op('/')">/</button>
+            <button onclick="op('%')">%</button>
+        </div>
+        <button class="eq" onclick="calculate()">=</button>
+    </div>
+
+    <script>
+        var currentInput = '';
+        var previousInput = '';
+        var operator = '';
+
+        function n(num) {
+            currentInput += num;
+            document.getElementById('display').value = currentInput;
+        }
+
+        function op(op) {
+            if (currentInput == ''){ 
+                    return;
+            }
+            operator = op;
+            previousInput = currentInput;
+            currentInput = '';
+            document.getElementById('display').value = operator;
+        }
+
+        function dot() {
+            if (currentInput.includes('.')){ 
+                return;
+            }
+            currentInput += '.';
+            document.getElementById('display').value = currentInput;
+        }
+
+        function clearAll() {
+            currentInput = '';
+            previousInput = '';
+            operator = '';
+            document.getElementById('display').value = '';
+        }
+
+        function clearLast() {
+            currentInput = currentInput.slice(0, -1);
+            document.getElementById('display').value = currentInput;
+        }
+
+        function calculate() {
+            if (currentInput == '' || previousInput == ''){ 
+                return;
+        }
+            var result;
+            switch (operator) {
+                case '+':
+                    result = parseFloat(previousInput) + parseFloat(currentInput);
+                    break;
+                case '-':
+                    result = parseFloat(previousInput) - parseFloat(currentInput);
+                    break;
+                case 'x':
+                    result = parseFloat(previousInput) * parseFloat(currentInput);
+                    break;
+                case '/':
+                    result = parseFloat(previousInput) / parseFloat(currentInput);
+                    break;
+                case '%':
+                    result = parseFloat(previousInput) % parseFloat(currentInput);
+                    break;
+                default:
+                    return;
+            }
+
+            document.getElementById('display').value = result;
+            currentInput = result.toString();
+            previousInput = '';
+            operator = '';
+        }
+    </script>
+</body>
+</html>
