@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        input {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            background-color: #c50000;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c50000;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #c50000;
+            color: white;
+        }
+        .action-btn {
+            margin: 0 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        .edit-btn {
+            background-color: #2196F3;
+        }
+        .delete-btn {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <h1>Expense Management</h1>
+
+    <input type="text" id="name" placeholder="Enter your Item">
+    <input type="text" id="price" placeholder="Enter Price">
+
+    <button onclick="add()">Add</button>
+    <button onclick="deleteAll()">Delete All</button>
+
+    <table id="Table">
+        <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </table>
+
+    <script>
+        const getnameinp = document.getElementById('name');
+        const getpriceinp = document.getElementById('price');
+        const gettable = document.getElementById('Table');
+
+        function add() {
+            var name = getnameinp.value.trim();
+            var price = getpriceinp.value.trim();
+
+                var row = gettable.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+
+                cell1.textContent = name;
+                cell2.textContent = price;
+                cell3.innerHTML = `
+                    <button class="action-btn edit-btn" onclick="editRow(this)">Edit</button>
+                    <button class="action-btn delete-btn" onclick="deleteRow(this)">Delete</button>
+                `;
+
+                getnameinp.value = '';
+                getpriceinp.value = '';
+            
+        }
+
+        function deleteAll() {
+            gettable.innerHTML = `
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            `;
+        }
+
+        function deleteRow(btn) {
+            const row = btn.parentElement.parentElement;
+            gettable.deleteRow(row.rowIndex);
+        }
+
+        function editRow(btn) {
+            var row = btn.parentElement.parentElement;
+            var itemCell = row.cells[0];
+            var priceCell = row.cells[1];
+
+            var newItem = prompt("Edit Item:", itemCell.textContent);
+            var newPrice = prompt("Edit Price:", priceCell.textContent);
+
+        }
+    </script>
+</body>
+</html>
+
